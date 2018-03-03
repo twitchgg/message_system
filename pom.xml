@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>me.twitchgg.message</groupId>
     <artifactId>cloud-message-system</artifactId>
     <version>1.0.0</version>
@@ -13,6 +11,16 @@
     <description>
         Cloud Distributed Message System
     </description>
+
+    <developers>
+        <developer>
+            <id>TwitchGG</id>
+            <name>Tang Lei</name>
+            <email>twitchgg@yahoo.com</email>
+            <organization>Anyun Cloud</organization>
+        </developer>
+    </developers>
+
     <properties>
         <version.project.root>1.0.0</version.project.root>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -44,7 +52,7 @@
     </properties>
 
     <modules>
-
+        <module>commons</module>
     </modules>
 
     <dependencyManagement>

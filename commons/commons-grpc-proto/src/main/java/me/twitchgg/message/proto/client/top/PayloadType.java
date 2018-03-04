@@ -12,6 +12,16 @@ public enum PayloadType {
         this.payloadType = payloadType;
     }
 
+    public static PayloadType valueOf(byte byteCode) {
+        if (byteCode == PING.value())
+            return PayloadType.PING;
+        if (byteCode == CONTROLLER.value())
+            return PayloadType.CONTROLLER;
+        if (byteCode == MESSAGE.value())
+            return PayloadType.MESSAGE;
+        return null;
+    }
+
     public String hex() {
         return "0x" + Integer.toHexString(payloadType);
     }

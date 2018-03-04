@@ -54,4 +54,22 @@ public class Version implements Protocol {
     public int getLength() {
         return 3;
     }
+
+    public String getVersion() {
+        return (int) versionMainline + "." + (int) versionMinor + '.' + (int) versionFix;
+    }
+
+    @Override
+    public String toString() {
+        return versionMainline + "." + versionMinor + '.' + versionFix;
+    }
+
+    public Version decode(byte[] data, int index) throws Exception {
+        byte[] versionData = new byte[3];
+        System.arraycopy(data, index, versionData, 0, 3);
+        this.versionMainline = versionData[0];
+        this.versionMinor = versionData[1];
+        this.versionFix = versionData[2];
+        return this;
+    }
 }

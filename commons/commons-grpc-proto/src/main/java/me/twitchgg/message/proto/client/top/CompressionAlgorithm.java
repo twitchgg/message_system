@@ -14,6 +14,14 @@ public enum CompressionAlgorithm {
         this.algorithm = algorithm;
     }
 
+    public static CompressionAlgorithm valueOf(byte byteCode) {
+        if (byteCode == NONE.value())
+            return CompressionAlgorithm.NONE;
+        if (byteCode == BZ2.value())
+            return CompressionAlgorithm.BZ2;
+        return null;
+    }
+
     public String hex() {
         return "0x" + Integer.toHexString(algorithm);
     }

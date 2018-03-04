@@ -6,6 +6,7 @@ package me.twitchgg.message;
  */
 public class ProtocolUtil {
     public static byte[] hexStringToByteArray(String s) {
+        s = s.replace(" ", "");
         int len = s.length();
         byte[] data = new byte[len / 2];
         for (int i = 0; i < len; i += 2) {

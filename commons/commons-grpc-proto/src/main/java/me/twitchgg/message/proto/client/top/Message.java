@@ -10,13 +10,12 @@ public class Message implements Protocol {
     private byte[] payload = new byte[PAYLOAD_SIZE];
     private int length;
 
-    public Message(Header header) {
-        this.header = header;
+    public Message() {
+        header = new Header();
     }
 
-    public void setPayload(byte[] data) {
-        System.arraycopy(data, 0, payload, 0, data.length);
-        length = 0;
+    public Message(Header header) {
+        this.header = header;
     }
 
     public int getPayloadLength() {
@@ -31,6 +30,30 @@ public class Message implements Protocol {
         System.arraycopy(headerData, 0, bytes, 0, header.getLength());
         System.arraycopy(payload, 0, bytes, header.getLength(), payload.length);
         return bytes;
+    }
+
+    public Header getHeader() {
+        return header;
+    }
+
+    public byte[] getPayload() {
+        return payload;
+    }
+
+    public void setPayload(byte[] data) {
+        if (header != null) {
+            if (!header.getCompressionAlgorithm().equals(CompressionAlgorithm.NONE)) {
+                System.out.println("CompressionAlgorithm: " + header.getCompressionAlgorithm());
+            }
+        }
+        System.arraycopy(data, 0, payload, 0, data.length);
+        length = 0;
+    }
+
+    public Message decode(byte[] data) throws Exception {
+        header = new Header().decode(data);
+        System.arraycopy(data, Header.HEADER_LENGTH, payload, 0, data.length - Header.HEADER_LENGTH);
+        return this;
     }
 
     @Override

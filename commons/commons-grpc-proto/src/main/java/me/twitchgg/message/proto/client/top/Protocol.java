@@ -20,4 +20,5 @@ public interface Protocol extends Serializable{
      * @return
      */
     int getLength();
+
 }

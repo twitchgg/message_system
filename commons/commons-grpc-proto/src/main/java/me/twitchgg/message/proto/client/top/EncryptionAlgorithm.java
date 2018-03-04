@@ -14,6 +14,20 @@ public enum EncryptionAlgorithm {
         this.algorithm = algorithm;
     }
 
+    public static EncryptionAlgorithm valueOf(byte byteCode) {
+        if (byteCode == NONE.value())
+            return EncryptionAlgorithm.NONE;
+        if (byteCode == DES.value())
+            return EncryptionAlgorithm.DES;
+        if (byteCode == DES3.value())
+            return EncryptionAlgorithm.DES3;
+        if (byteCode == AES.value())
+            return EncryptionAlgorithm.AES;
+        if (byteCode == BLOWFISH.value())
+            return EncryptionAlgorithm.BLOWFISH;
+        return null;
+    }
+
     public String hex() {
         return "0x" + Integer.toHexString(algorithm);
     }

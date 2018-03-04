@@ -13,6 +13,9 @@
     <packaging>pom</packaging>
     <name>System Commons(pom)</name>
     <modules>
+        <module>commons-exception</module>
+        <module>commons-lang</module>
+        <module>commons-interfaces</module>
         <module>commons-grpc-proto</module>
     </modules>
 </project>

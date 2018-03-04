@@ -4,19 +4,40 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>me.twitchgg.message</groupId>
-        <artifactId>cloud-message-system-commons</artifactId>
+        <artifactId>cloud-message-system-modules</artifactId>
         <version>1.0.0</version>
         <relativePath>../</relativePath>
     </parent>
-    <artifactId>cloud-message-system-commons-grpc-proto</artifactId>
+    <artifactId>cloud-message-system-transport-endpoint</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
-    <name>System gRPC Proto</name>
+    <name>Client Transport Endpoint</name>
     <dependencies>
         <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <scope>test</scope>
+            <groupId>me.twitchgg.message</groupId>
+            <artifactId>cloud-message-system-commons-exception</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>me.twitchgg.message</groupId>
+            <artifactId>cloud-message-system-commons-interfaces</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hashids</groupId>
+            <artifactId>hashids</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -26,32 +47,7 @@
     </dependencies>
     <build>
         <defaultGoal>install</defaultGoal>
-        <extensions>
-            <extension>
-                <groupId>kr.motd.maven</groupId>
-                <artifactId>os-maven-plugin</artifactId>
-                <version>1.5.0.Final</version>
-            </extension>
-        </extensions>
         <plugins>
-            <plugin>
-                <groupId>org.xolstice.maven.plugins</groupId>
-                <artifactId>protobuf-maven-plugin</artifactId>
-                <version>0.5.0</version>
-                <configuration>
-                    <protocArtifact>com.google.protobuf:protoc:3.0.0:exe:${os.detected.classifier}</protocArtifact>
-                    <pluginId>grpc-java</pluginId>
-                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:1.0.0:exe:${os.detected.classifier}</pluginArtifact>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>compile-custom</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

@@ -36,8 +36,8 @@
         <version.slf4j>1.7.12</version.slf4j>
         <version.hashids>1.0.3</version.hashids>
 
-        <version.guice>4.1.0</version.guice>
-        <version.guava>22.0</version.guava>
+        <version.guice>4.2.0</version.guice>
+        <version.guava>24.0-jre</version.guava>
         <version.jsr305>3.0.2</version.jsr305>
 
         <version.plugin-bundle>3.0.0</version.plugin-bundle>
@@ -53,6 +53,7 @@
 
     <modules>
         <module>commons</module>
+        <module>modules</module>
     </modules>
 
     <dependencyManagement>

@@ -43,7 +43,8 @@ public class Message implements Protocol {
     public void setPayload(byte[] data) {
         if (header != null) {
             if (!header.getCompressionAlgorithm().equals(CompressionAlgorithm.NONE)) {
-                System.out.println("CompressionAlgorithm: " + header.getCompressionAlgorithm());
+//                System.out.println("CompressionAlgorithm: " + header.getCompressionAlgorithm());
+                //TODO compression algorithm
             }
         }
         System.arraycopy(data, 0, payload, 0, data.length);

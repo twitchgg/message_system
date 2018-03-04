@@ -1,13 +1,10 @@
 package me.twitchgg.message.endpoint.test;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-
-import java.util.Date;
 
 /**
  * @author TwitchGG <twitchgg@yahoo.com>
@@ -32,9 +29,9 @@ public class NettyEndpointTestClient {
             });
             // Start the client.
             ChannelFuture f = b.connect(host, port).sync(); // (5)
-
             // Wait until the connection is closed.
             f.channel().closeFuture().sync();
+            System.out.println("aa");
         } finally {
             workerGroup.shutdownGracefully();
         }
@@ -42,15 +39,8 @@ public class NettyEndpointTestClient {
 
     public static class TestClientHandler extends ChannelInboundHandlerAdapter {
         @Override
-        public void channelRead(ChannelHandlerContext ctx, Object msg) {
-            ByteBuf m = (ByteBuf) msg; // (1)
-            try {
-                long currentTimeMillis = (m.readUnsignedInt() - 2208988800L) * 1000L;
-                System.out.println(new Date(currentTimeMillis));
-                ctx.close();
-            } finally {
-                m.release();
-            }
+        public void channelActive(ChannelHandlerContext ctx) throws Exception {
+            System.out.println("channelActive");
         }
 
         @Override

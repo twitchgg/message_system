@@ -9,7 +9,6 @@
         <relativePath>../</relativePath>
     </parent>
     <artifactId>cloud-message-system-transport-endpoint</artifactId>
-    <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>Client Transport Endpoint</name>
     <dependencies>
@@ -21,6 +20,11 @@
         <dependency>
             <groupId>me.twitchgg.message</groupId>
             <artifactId>cloud-message-system-commons-interfaces</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>me.twitchgg.message</groupId>
+            <artifactId>cloud-message-system-commons-grpc-proto</artifactId>
             <version>${parent.version}</version>
         </dependency>
         <dependency>

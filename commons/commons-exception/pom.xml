@@ -9,7 +9,6 @@
         <relativePath>../</relativePath>
     </parent>
     <artifactId>cloud-message-system-commons-exception</artifactId>
-    <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>System Common Exceptions</name>
     <dependencies>

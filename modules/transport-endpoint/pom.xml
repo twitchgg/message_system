@@ -10,7 +10,7 @@
     </parent>
     <artifactId>cloud-message-system-transport-endpoint</artifactId>
     <packaging>jar</packaging>
-    <name>Client Transport Endpoint</name>
+    <name>Server Transport Endpoint</name>
     <dependencies>
         <dependency>
             <groupId>me.twitchgg.message</groupId>

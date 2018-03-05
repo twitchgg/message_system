@@ -10,7 +10,7 @@
     </parent>
     <artifactId>cloud-message-system-commons-exception</artifactId>
     <packaging>jar</packaging>
-    <name>System Common Exceptions</name>
+    <name>Common Exceptions</name>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

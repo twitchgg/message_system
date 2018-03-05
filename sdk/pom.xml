@@ -8,18 +8,15 @@
         <version>1.0.0</version>
         <relativePath>../</relativePath>
     </parent>
-    <artifactId>cloud-message-system-modules</artifactId>
+    <artifactId>cloud-message-system-sdk</artifactId>
     <packaging>pom</packaging>
-    <name>Modules(pom)</name>
-
+    <name>Client SDK(pom)</name>
+    <modules>
+        <module>sdk-java</module>
+    </modules>
     <properties>
         <version.netty>4.1.22.Final</version.netty>
-        <version.hashids>1.0.3</version.hashids>
     </properties>
-
-    <modules>
-        <module>transport-endpoint</module>
-    </modules>
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -28,9 +25,14 @@
                 <version>${version.netty}</version>
             </dependency>
             <dependency>
-                <groupId>org.hashids</groupId>
-                <artifactId>hashids</artifactId>
-                <version>${version.hashids}</version>
+                <groupId>me.twitchgg.message</groupId>
+                <artifactId>cloud-message-system-commons-exception</artifactId>
+                <version>${parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>me.twitchgg.message</groupId>
+                <artifactId>cloud-message-system-commons-lang</artifactId>
+                <version>${parent.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

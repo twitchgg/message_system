@@ -10,7 +10,7 @@
     </parent>
     <artifactId>cloud-message-system-commons-lang</artifactId>
     <packaging>jar</packaging>
-    <name>System Common Lang</name>
+    <name>Common Lang</name>
     <dependencies>
         <dependency>
             <groupId>me.twitchgg.message</groupId>

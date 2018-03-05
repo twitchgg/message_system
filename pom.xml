@@ -54,6 +54,7 @@
     <modules>
         <module>commons</module>
         <module>modules</module>
+        <module>sdk</module>
     </modules>
 
     <dependencyManagement>

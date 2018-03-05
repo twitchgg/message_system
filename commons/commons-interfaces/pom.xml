@@ -10,7 +10,7 @@
     </parent>
     <artifactId>cloud-message-system-commons-interfaces</artifactId>
     <packaging>jar</packaging>
-    <name>System Common Interfaces</name>
+    <name>Common Interfaces</name>
     <dependencies>
         <dependency>
             <groupId>me.twitchgg.message</groupId>

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "me.twitchgg.message.grpc.distributed";
+option java_outer_classname = "DistributedSyncProto";
+option objc_class_prefix = "HLWS";
+
+package distributed;
+
+service DistributedSync {
+
+}

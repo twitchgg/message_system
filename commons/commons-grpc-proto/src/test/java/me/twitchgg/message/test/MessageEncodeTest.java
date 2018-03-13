@@ -13,11 +13,11 @@ public class MessageEncodeTest extends BaseTest {
     private byte[] data;
 
     @Before
-    public void befor0() {
+    public void before0() {
         String payloadMessage = "this is test message";
         Header header = new Header(
                 new Version(1, 0, 0),
-                PayloadType.CONTROLLER,
+                PayloadType.TEST,
                 EncryptionAlgorithm.AES,
                 CompressionAlgorithm.BZ2,
                 1
@@ -35,7 +35,7 @@ public class MessageEncodeTest extends BaseTest {
         assertEquals("1.0.0", header.getVersion().toString());
         assertEquals(EncryptionAlgorithm.AES, header.getEncryptionAlgorithm());
         assertEquals(CompressionAlgorithm.BZ2, header.getCompressionAlgorithm());
-        assertEquals(PayloadType.CONTROLLER, header.getPayloadType());
+        assertEquals(PayloadType.TEST, header.getPayloadType());
         assertEquals(1, header.getSequence());
         HexDump.dump(message.getPayload(), message.getLength(), System.out, 0);
     }

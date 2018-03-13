@@ -16,12 +16,12 @@ public class Header implements Protocol {
     static final int HEADER_LENGTH = 12;
     private static final int LENGTH_SEQ = 2;
     private static final byte[] MAGIC_HEADER = new byte[]{
-            'E', 'm', 'm', 'a'
+            'e', 'm', 'm', 'a'
     };
     private Version version = new Version();
     private EncryptionAlgorithm encryptionAlgorithm = EncryptionAlgorithm.NONE;
     private CompressionAlgorithm compressionAlgorithm = CompressionAlgorithm.NONE;
-    private PayloadType payloadType = PayloadType.PING;
+    private PayloadType payloadType = PayloadType.TEST;
     private byte[] sequence = ProtocolUtil.hexStringToByteArray("0000");
     private int length = 0;
 
@@ -38,6 +38,20 @@ public class Header implements Protocol {
         this.compressionAlgorithm = compressionAlgorithm;
         this.payloadType = payloadType;
         setSequence(sequence);
+    }
+
+    public Header copied() {
+        Version finalVersion = new Version(
+                this.getVersion().getMainline(),
+                this.getVersion().getMinor(),
+                this.getVersion().getFix()
+        );
+        return new Header(
+                finalVersion,
+                this.getPayloadType(),
+                this.getEncryptionAlgorithm(),
+                this.getCompressionAlgorithm(), getSequence()
+        );
     }
 
     public byte[] encode() {
@@ -72,12 +86,24 @@ public class Header implements Protocol {
         return version;
     }
 
+    public void setVersion(Version version) {
+        this.version = version;
+    }
+
     public EncryptionAlgorithm getEncryptionAlgorithm() {
         return encryptionAlgorithm;
     }
 
+    public void setEncryptionAlgorithm(EncryptionAlgorithm algorithm) {
+        this.encryptionAlgorithm = algorithm;
+    }
+
     public CompressionAlgorithm getCompressionAlgorithm() {
         return compressionAlgorithm;
+    }
+
+    public void setCompressionAlgorithm(CompressionAlgorithm algorithm) {
+        this.compressionAlgorithm = algorithm;
     }
 
     public PayloadType getPayloadType() {

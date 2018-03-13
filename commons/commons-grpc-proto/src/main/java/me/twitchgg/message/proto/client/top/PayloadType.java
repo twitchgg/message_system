@@ -5,7 +5,9 @@ package me.twitchgg.message.proto.client.top;
  * @since 1.0.0 on 2018/3/3
  */
 public enum PayloadType {
-    PING(0x0), CONTROLLER(0x1), MESSAGE(0x2);
+    PING(0x0), CONTROLLER(0x1), MESSAGE(0x2),
+    //only test message
+    TEST(0x3);
     private int payloadType;
 
     PayloadType(int payloadType) {
@@ -19,6 +21,8 @@ public enum PayloadType {
             return PayloadType.CONTROLLER;
         if (byteCode == MESSAGE.value())
             return PayloadType.MESSAGE;
+        if (byteCode == PayloadType.TEST.value())
+            return PayloadType.TEST;
         return null;
     }
 

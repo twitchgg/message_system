@@ -25,6 +25,19 @@ public class Version implements Protocol {
         setVersionFix(versionFix);
     }
 
+
+    public int getMainline() {
+        return (int) versionMainline;
+    }
+
+    public int getMinor() {
+        return (int) versionMinor;
+    }
+
+    public int getFix() {
+        return (int) versionFix;
+    }
+
     public void setVersionMainline(int versionMainline) {
         if (versionMainline < 1 || versionMainline > 127)
             return;

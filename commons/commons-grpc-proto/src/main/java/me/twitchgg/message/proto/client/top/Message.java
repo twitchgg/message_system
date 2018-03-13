@@ -5,7 +5,7 @@ package me.twitchgg.message.proto.client.top;
  * @since 1.0.0 on 2018/3/3
  */
 public class Message implements Protocol {
-    private static final int PAYLOAD_SIZE = 1428;
+    public static final int PAYLOAD_SIZE = 1428;
     private Header header;
     private byte[] payload = new byte[PAYLOAD_SIZE];
     private int length;

@@ -25,6 +25,10 @@
             <artifactId>netty-all</artifactId>
         </dependency>
         <dependency>
+            <groupId>me.twitchgg.message</groupId>
+            <artifactId>cloud-message-system-commons-grpc-proto</artifactId>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>

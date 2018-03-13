@@ -14,16 +14,8 @@
     <modules>
         <module>sdk-java</module>
     </modules>
-    <properties>
-        <version.netty>4.1.22.Final</version.netty>
-    </properties>
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-all</artifactId>
-                <version>${version.netty}</version>
-            </dependency>
             <dependency>
                 <groupId>me.twitchgg.message</groupId>
                 <artifactId>cloud-message-system-commons-exception</artifactId>
@@ -32,6 +24,11 @@
             <dependency>
                 <groupId>me.twitchgg.message</groupId>
                 <artifactId>cloud-message-system-commons-lang</artifactId>
+                <version>${parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>me.twitchgg.message</groupId>
+                <artifactId>cloud-message-system-commons-grpc-proto</artifactId>
                 <version>${parent.version}</version>
             </dependency>
         </dependencies>

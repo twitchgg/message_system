@@ -10,12 +10,17 @@ import me.twitchgg.message.common.ctx.CancelContext;
 import me.twitchgg.message.common.ctx.Context;
 import me.twitchgg.message.common.exception.ConnectException;
 import me.twitchgg.message.common.exception.ConnectionCloseException;
+import me.twitchgg.message.common.exception.MessageSendException;
 import me.twitchgg.message.common.exception.PermissionException;
+import me.twitchgg.message.netty.MessageFrameDecoder;
+import me.twitchgg.message.netty.MessageEncoder;
+import me.twitchgg.message.proto.client.top.Message;
 
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author TwitchGG <twitchgg@yahoo.com>
@@ -25,10 +30,8 @@ public class DefaultClient implements Client {
     private String host;
     private int port;
     private boolean isAutoReconnect;
-    private boolean isEnableNio;
     private Admin admin;
     private Bootstrap bootstrap;
-    private EventLoopGroup workerGroup;
     private ChannelFuture channelFuture;
     private Channel channel;
     private CancelContext context;
@@ -37,9 +40,8 @@ public class DefaultClient implements Client {
                   boolean isEnableNio, boolean isAutoReconnect) {
         this.host = host;
         this.port = port;
-        this.isEnableNio = isEnableNio;
         this.isAutoReconnect = isAutoReconnect;
-
+        EventLoopGroup workerGroup;
         if (isEnableNio)
             workerGroup = new NioEventLoopGroup();
         else
@@ -48,13 +50,31 @@ public class DefaultClient implements Client {
         bootstrap.group(workerGroup);
         bootstrap.channel(NioSocketChannel.class);
         bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
+        bootstrap.option(ChannelOption.TCP_NODELAY, true);
         bootstrap.handler(new ChannelInitializer<SocketChannel>() {
             @Override
             public void initChannel(SocketChannel ch) {
                 DefaultClient clientRef = DefaultClient.this;
-                ch.pipeline().addLast(new DefaultEndpointHandler(clientRef));
+                ch.pipeline()
+                        .addLast(new MessageEncoder(),
+                                new MessageFrameDecoder(),
+                                new DefaultEndpointHandler(clientRef));
+
             }
         });
+    }
+
+    @Override
+    public void send(Message message) throws MessageSendException {
+        if (channel != null && channel.isActive()) {
+            try {
+                channel.writeAndFlush(message).await(2, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                throw new MessageSendException(e);
+            }
+        } else {
+            throw new MessageSendException("Can't send message to inactive connection");
+        }
     }
 
     @Override
@@ -78,15 +98,25 @@ public class DefaultClient implements Client {
 
     @Override
     public void connect(boolean isBackground) throws ConnectException {
+        channelFuture = bootstrap.connect(host, port);
         try {
-            channelFuture = bootstrap.connect(host, port);
+            channelFuture.await(2, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            throw new ConnectException(e);
+        }
+        if (isAutoReconnect) {
             channelFuture.addListener(new ChannelFutureListener() {
 
                 @Override
-                public void operationComplete(ChannelFuture future) throws Exception {
+                public void operationComplete(ChannelFuture future) throws ConnectException {
                     if (!future.isSuccess()) {
                         future.channel().close();
-                        bootstrap.connect(host, port).addListener(this);
+                        try {
+                            channelFuture = bootstrap.connect(host, port).addListener(this);
+                            channelFuture.await(2, TimeUnit.SECONDS);
+                        } catch (InterruptedException e) {
+                            throw new ConnectException(e);
+                        }
                     } else {
                         channel = future.channel();
                         channel.closeFuture().addListener((ChannelFutureListener) future1 -> scheduleConnect(5));
@@ -104,29 +134,25 @@ public class DefaultClient implements Client {
                     }, millis);
                 }
             });
-            if (!isBackground)
-                channelFuture = channelFuture.sync();
-            else {
-                ExecutorService backgroundService = Executors.newSingleThreadExecutor();
-                Context backgroundContext = Context.Builder.buildBackgroudContext();
-                context = Context.Builder.buildCancelContext(backgroundContext);
-                backgroundService.submit(() -> {
-                    while (!context.isDone()) {
-                        try {
-                            Thread.sleep(1000L);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
+        }
+        if (channelFuture.isSuccess())
+            channel = channelFuture.channel();
+        else
+            throw new ConnectException("channel future is not success");
+        if (isBackground) {
+            ExecutorService backgroundService = Executors.newSingleThreadExecutor();
+            Context backgroundContext = Context.Builder.buildBackgroudContext();
+            context = Context.Builder.buildCancelContext(backgroundContext);
+            backgroundService.submit(() -> {
+                while (!context.isDone()) {
                     try {
-                        channelFuture.awaitUninterruptibly().sync();
+                        Thread.sleep(1000L);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                });
-            }
-        } catch (InterruptedException e) {
-            throw new ConnectException(e);
+                }
+                channelFuture.channel().close();
+            });
         }
     }
 

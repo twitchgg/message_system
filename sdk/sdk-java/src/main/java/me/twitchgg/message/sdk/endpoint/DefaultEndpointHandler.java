@@ -2,7 +2,7 @@ package me.twitchgg.message.sdk.endpoint;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import me.twitchgg.message.common.exception.ConnectException;
+import me.twitchgg.message.proto.client.top.Message;
 
 /**
  * @author TwitchGG <twitchgg@yahoo.com>
@@ -11,7 +11,7 @@ import me.twitchgg.message.common.exception.ConnectException;
 public class DefaultEndpointHandler extends ChannelInboundHandlerAdapter {
     private DefaultClient client;
 
-    public DefaultEndpointHandler(DefaultClient client) {
+    DefaultEndpointHandler(DefaultClient client) {
         this.client = client;
     }
 

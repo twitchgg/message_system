@@ -10,8 +10,10 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.bytes.ByteArrayDecoder;
+import io.netty.handler.codec.FixedLengthFrameDecoder;
 import me.twitchgg.message.export.config.EndpointConfig;
+import me.twitchgg.message.netty.MessageFrameDecoder;
+import me.twitchgg.message.netty.MessageEncoder;
 
 /**
  * @author TwitchGG <twitchgg@yahoo.com>
@@ -38,11 +40,13 @@ public class DefaultNettyTcpNioServer implements NettyTcpNioServer {
                         @Override
                         public void initChannel(SocketChannel ch) {
                             ch.pipeline().addLast(new DiscardServerHandler());
-                            ch.pipeline().addLast(new ByteArrayDecoder());
+                            ch.pipeline().addLast(new FixedLengthFrameDecoder(1440));
+                            ch.pipeline().addLast(new MessageEncoder());
+                            ch.pipeline().addLast(new MessageFrameDecoder());
                         }
                     })
-                    .option(ChannelOption.SO_BACKLOG, 128)
-                    .childOption(ChannelOption.SO_KEEPALIVE, true);
+                    .childOption(ChannelOption.SO_KEEPALIVE, true)
+                    .childOption(ChannelOption.TCP_NODELAY, true);
             ChannelFuture f = bootstrap.bind(config.getBindAddress(), config.getPort()).sync();
             f.channel().closeFuture().sync();
         } finally {
